@@ -25,12 +25,23 @@ const stopwatchMachine = Machine({
     paused: {
       on: {
         START: 'running',
-        RESET: 'idle'
+        RESET: {
+          target:'idle',
+          actions: assign({
+            laps: (context, _) => context.laps = 0
+          })
+        }
       }
+
     },
     running: {
       on: {
-        RESET:'idle',
+        RESET:{
+          target:'idle',
+          actions: assign({
+            laps: (context, _) => context.laps = 0
+          })
+        },
         PAUSE:'paused',
         LAP: {
           target: 'running',
